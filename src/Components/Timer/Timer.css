@@ -1,0 +1,21 @@
+#timer {
+    min-width: 400px;
+    border: 4px solid #F55B01;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #002e99;
+    border-radius: 50px;
+}
+
+#timer h1 {
+    color: #F55B01;
+    font-size: 3rem;
+    font-weight: 800;
+}
+
+#time-left {
+    font-size: 8rem;
+    font-weight: 800;
+    color:#E71401;
+}

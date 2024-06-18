@@ -46,9 +46,11 @@ body {
 #title {
   color: rgb(233, 101, 0);
   border: 5px solid;
-  padding: 5px 20px;
+  padding: 0 20px;
   box-sizing: border-box;
   border-radius: 50px;
+  display: flex;
+  align-items: center;
 }
 
 @media screen and (max-width: 605px) {
