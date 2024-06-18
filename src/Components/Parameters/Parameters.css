@@ -2,9 +2,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    padding: 10px;
     width: 100%;
-    box-sizing: border-box;
 }
 
 .param-div {
@@ -12,8 +10,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    box-sizing: border-box;
-    padding: 5px;
     border-radius: 10px;
     min-width: 220px;
 }
