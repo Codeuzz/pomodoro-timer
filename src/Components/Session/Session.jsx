@@ -7,11 +7,11 @@ function Session() {
 
             <div className='param-control' id='session-control'>
             <button id="session-increment">
-                <i class="fa-solid fa-arrow-up"></i>
+                <i className="fa-solid fa-arrow-up"></i>
             </button>
             <span className='param-length' id='session-length'>25</span>
             <button id="session-decrement">
-                <i class="fa-solid fa-arrow-down"></i>
+                <i className="fa-solid fa-arrow-down"></i>
             </button>
             </div>
         </div>
