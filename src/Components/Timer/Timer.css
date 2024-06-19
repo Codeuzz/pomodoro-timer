@@ -1,5 +1,5 @@
 #timer {
-    min-width: 500px;
+    max-width: 500px;
     box-shadow: #04041f 3px 3px 6px 0px inset, #002e99 -3px -3px 5px 0px inset;
     
     display: flex;
@@ -7,7 +7,8 @@
     align-items: center;
     color: #002e99;
     border-radius: 200px;
-    padding: 20px 30px;
+    padding: 20px 50px;
+    box-sizing: border-box;
 }
 
 #timer h1 {
@@ -20,4 +21,16 @@
     font-size: 8rem;
     font-weight: 800;
     color:#E71401;
+}
+
+
+
+
+@media screen and (max-width: 440px) {
+    #timer h1 {
+        font-size: 2rem;
+    } 
+    #timer {
+        box-shadow: none;
+    }
 }

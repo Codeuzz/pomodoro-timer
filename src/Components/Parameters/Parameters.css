@@ -41,3 +41,10 @@ button:focus {
     gap: 10px;
 
 }
+
+@media screen and (max-width: 605px) {
+    #parameters {
+        flex-wrap: wrap;
+        gap: 50px;
+    }
+}
