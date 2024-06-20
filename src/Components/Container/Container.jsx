@@ -20,7 +20,7 @@ function Container() {
 
     const startCountDown = () => {
         if(started) {
-            setWantedTime(prevTime => prevTime - 1);
+            setWantedTime(prevTime => prevTime === 0 ? 0 : prevTime - 1);
             console.log(wantedTime);
         } 
         // else if(wantedTime === 0) {
@@ -34,9 +34,9 @@ function Container() {
     useEffect(() => {
         console.log("Setting interval");
                 const timer = setInterval(() => {
-                    startCountDown();
+                    startCountDown()
                 }, 1000);   
-
+                
         return () => {
             console.log("Clearing interval");
             clearInterval(timer);
