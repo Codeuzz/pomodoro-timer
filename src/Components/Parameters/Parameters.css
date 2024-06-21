@@ -32,6 +32,7 @@ button:hover {
 
 button:focus {
     border: none;
+    color: none;
 }
 
 .param-control {

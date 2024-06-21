@@ -20,7 +20,6 @@ function StartStop({started, setStarted, timeFinished}) {
              <i className={`fa-solid ${started ? 'fa-pause' : 'fa-play'}`}></i>
              <audio ref={FinishedAudio} id='finish-audio' src='./src/assets/finished-ring.mp3'></audio>
              <audio ref={clickAudio} id='finish-audio' src='./src/assets/click-sound.wav'></audio>
-
            </button>
     )
 }

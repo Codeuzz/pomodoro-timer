@@ -2,11 +2,11 @@ import './Parameters.css';
 import Break from '../Break/Break';
 import Session from '../Session/Session';
 
-function Parameters({wantedTime, started, incrementSesh, decrementSesh, seconds, minutes}) {
+function Parameters({wantedTime, started, incrementSesh, decrementSesh, seshTime, incrementBreak, decrementBreak, breakTime}) {
     return(
         <div id='parameters' >
-            <Break />
-            <Session started={started} wantedTime={wantedTime} incrementSesh={incrementSesh} decrementSesh={decrementSesh} />
+            <Break breakTime={breakTime} incrementBreak={incrementBreak} decrementBreak={decrementBreak} />
+            <Session seshTime={seshTime} started={started} wantedTime={wantedTime} incrementSesh={incrementSesh} decrementSesh={decrementSesh} />
         </div>
     )
 }

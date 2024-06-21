@@ -1,7 +1,7 @@
 import './Session.css';
 import { useState, useEffect } from 'react';
 
-function Session({wantedTime, started, incrementSesh, decrementSesh}) {
+function Session({wantedTime, started, incrementSesh, decrementSesh, seshTime}) {
     
 
     return (
@@ -12,7 +12,7 @@ function Session({wantedTime, started, incrementSesh, decrementSesh}) {
             <button id="session-increment" onClick={incrementSesh}>
                 <i className="fa-solid fa-arrow-up"></i>
             </button>
-            <span className='param-length' id='session-length'>25</span>
+            <span className='param-length' id='session-length'>{seshTime / 60}</span>
             <button id="session-decrement" onClick={decrementSesh}>
                 <i className="fa-solid fa-arrow-down"></i>
             </button>
