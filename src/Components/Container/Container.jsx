@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 function Container() {
     const [wantedTime, setWantedTime] = useState(1500);
     const [started, setStarted] = useState(false);
+    const [timeFinished, setTimeFinished] = useState(false)
 
     const incrementSesh = () => {
         setWantedTime(prevTime => prevTime + 60);
@@ -20,15 +21,15 @@ function Container() {
 
     const startCountDown = () => {
         if(started) {
-            setWantedTime(prevTime => prevTime === 0 ? 0 : prevTime - 1);
-            console.log(wantedTime);
+            setWantedTime(prevTime => {
+                if(prevTime === 0) {
+                    setTimeFinished(!timeFinished);
+                    return 0;
+                } else {
+                   return prevTime - 1
+                }
+            });
         } 
-        // else if(wantedTime === 0) {
-        //     console.log("ZEROOOO");
-        //     setWantedTime(0);
-
-        // }
-            
     }
 
     useEffect(() => {
@@ -49,7 +50,7 @@ function Container() {
     return(
         <div id='app-container'>
             <Timer wantedTime={wantedTime} />
-            <Buttons started={started} setStarted={setStarted} />
+            <Buttons started={started} setStarted={setStarted} timeFinished={timeFinished} />
             <Parameters wantedTime={wantedTime}  incrementSesh={incrementSesh} decrementSesh={decrementSesh}/>
 
         </div>
