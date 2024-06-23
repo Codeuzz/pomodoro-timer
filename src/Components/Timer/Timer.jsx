@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import './Timer.css';
 
-function Timer({wantedTime, wantedBreakTime}) {
+function Timer({wantedTime, wantedBreakTime, totalSesh}) {
 
     const secondsSesh = wantedTime % 60;
     const minutesSesh = Math.floor(wantedTime / 60);
@@ -12,7 +12,7 @@ function Timer({wantedTime, wantedBreakTime}) {
     return (
         <div id='timer'>
             <h1 id='timer-label'>
-                {wantedTime > 0 ? 'Session' : 'Break'}
+                {wantedTime > 0 ? 'Session ' + totalSesh : 'Break ' + totalSesh}
             </h1>
             <span id="time-left">
                 {wantedTime > 0 

@@ -1,8 +1,8 @@
 import './Reset.css';
 
-function Reset() {
+function Reset({resetEverything}) {
     return(
-           <button id='reset'>
+           <button id='reset' onClick={resetEverything}>
              <i className="fa-solid fa-arrows-rotate"></i>
            </button>
     )
