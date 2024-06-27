@@ -45,12 +45,12 @@ function Container() {
         if(timeFinished && started) {
             setWantedBreakTime(prevTime => {
                 if(prevTime === 0) {
+                    setTotalSesh(prev => prev + 1) // GOING FROM 0 TO 2 FIX SO THAT GOING FROM 1 TO 2
                     setStarted(false)
                     setTimeFinished(!timeFinished);
                     FinishedAudio.current.currentTime = 0;
                     FinishedAudio.current.play();
                     console.log('time finished : ', timeFinished);
-                    setTotalSesh(prev => prev + 1) // GOING FROM 0 TO 2 FIX SO THAT GOING FROM 1 TO 2
                     resetEverything()
                     return 0;
                 } else {
