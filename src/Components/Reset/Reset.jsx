@@ -1,8 +1,10 @@
 import './Reset.css';
 
-function Reset({resetEverything}) {
+function Reset({resetEverything, setTotalSesh}) {
     return(
-           <button id='reset' onClick={resetEverything}>
+           <button id='reset' onClick={() => {resetEverything();
+            setTotalSesh(0)
+           } }>
              <i className="fa-solid fa-arrows-rotate"></i>
            </button>
     )

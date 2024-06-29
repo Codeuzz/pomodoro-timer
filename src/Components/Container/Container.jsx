@@ -12,8 +12,11 @@ function Container() {
     const [seshTime, setSeshTime] = useState(1500);
     const [wantedBreakTime, setWantedBreakTime] = useState(300);
     const [breakTime, setBreakTime] = useState(300);
+    const [onBreak, setOnBreak] = useState(false);
+
     const FinishedAudio = useRef(null);
     const [totalSesh, setTotalSesh] = useState(0)
+    const timerIdRef = useRef(null);
 
     const incrementSesh = () => {
         setWantedTime(prevTime => prevTime + 60 >= 3600 ? 3600 : prevTime + 60)
@@ -21,8 +24,8 @@ function Container() {
     }
 
     const decrementSesh = () => {
-        setWantedTime(prevTime => prevTime - 60 <= 0 ? 0 : prevTime - 60);
-        setSeshTime(prevTime => prevTime - 60 <= 0 ? 0 : prevTime - 60);
+        setWantedTime(prevTime => prevTime - 60 <= 0 ? 1 : prevTime - 60);
+        setSeshTime(prevTime => prevTime - 60 <= 0 ? 1 : prevTime - 60);
     }
 
     const incrementBreak = () => {
@@ -31,8 +34,8 @@ function Container() {
 
     }
     const decrementBreak = () => {
-        setWantedBreakTime(prevTime => prevTime - 60 <= 0 ? 0 : prevTime - 60);
-        setBreakTime(prevTime => prevTime - 60 <= 0 ? 0 : prevTime - 60);
+        setWantedBreakTime(prevTime => prevTime - 60 <= 0 ? 1 : prevTime - 60);
+        setBreakTime(prevTime => prevTime - 60 <= 0 ? 1 : prevTime - 60);
     }
     const resetEverything = () => {
         setWantedTime(1500);
@@ -41,20 +44,29 @@ function Container() {
         setBreakTime(300)
         setStarted(false);
         setTimeFinished(false);
-        FinishedAudio.currentTime = 0;
-        console.log(FinishedAudio)
+        setTimeFinishedB(true);
+        setOnBreak(false);
+        FinishedAudio.current.currentTime = 0;
+
+        if (timerIdRef.current) {
+            console.log("removed timer, reset")
+
+            clearInterval(timerIdRef.current);
+            timerIdRef.current = null;
+        }
 
     }
 
     const startBreak = () => {
-        if(!timeFinishedB && started) {
+        if(onBreak && started) {
             setWantedBreakTime(prevTime => {
                 if(prevTime === 0) {
                     setStarted(false)
                     FinishedAudio.current.currentTime = 0;
                     FinishedAudio.current.play();
-                    resetEverything()
                     setTimeFinishedB(true);
+
+                    resetEverything()
 
                     return 0;
                 } else {
@@ -65,15 +77,18 @@ function Container() {
     }
 
     const startCountDown = () => {
-        if(started && !timeFinished) {
+        if(started && !timeFinished && !onBreak) {
             setWantedTime(prevTime => {
                 if(prevTime === 0) {
                     setStarted(false)
                     FinishedAudio.current.currentTime = 0;
                     FinishedAudio.current.play();
                     setTimeFinished(true);
-                    setTimeFinishedB(false)
+                    setTimeFinishedB(false);
+                    setOnBreak(true);
                     console.log('time finished : ', timeFinished);
+
+                    return 0
                 } else {
                    return prevTime - 1;
                 }
@@ -85,13 +100,23 @@ function Container() {
         console.log("Setting interval");
         console.log("time finished useffect :",timeFinished);
 
-                const timer = setInterval(() => {
+        if (started) {
+            if (onBreak) {
+                timerIdRef.current = setInterval(() => {
+                    startBreak();
+                }, 1000);
+            } else {
+                timerIdRef.current = setInterval(() => {
                     startCountDown();
-                    startBreak()
-                }, 1000);   
-                
+                }, 1000);
+            }
+        }
+
         return () => {
-            clearInterval(timer);
+            if (timerIdRef.current) {
+                console.log("removed timer, unmounted")
+                clearInterval(timerIdRef.current);
+            }
         };
     }, [started]);
 
@@ -107,7 +132,7 @@ function Container() {
 
     return(
         <div id='app-container'>
-            <Timer wantedBreakTime={wantedBreakTime} wantedTime={wantedTime} totalSesh={totalSesh} />
+            <Timer timeFinished={timeFinished} wantedBreakTime={wantedBreakTime} wantedTime={wantedTime} totalSesh={totalSesh} />
             <Buttons 
                 started={started} 
                 setStarted={setStarted} 
@@ -115,6 +140,7 @@ function Container() {
                 setTimeFinished={setTimeFinished} 
                 ref={FinishedAudio}
                 resetEverything={resetEverything}
+                setTotalSesh={setTotalSesh}
             />
             <Parameters  
                 seshTime={seshTime} 

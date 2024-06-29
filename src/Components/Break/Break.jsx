@@ -9,7 +9,7 @@ function Break({incrementBreak, decrementBreak, breakTime}) {
             <button id="break-increment" onClick={incrementBreak}>
                 <i className="fa-solid fa-arrow-up"></i>
             </button>
-            <span className='param-length' id='break-length'>{breakTime / 60}</span>
+            <span className='param-length' id='break-length'>{Math.floor(breakTime / 60) <= 0 ? 1 : Math.floor(breakTime / 60)}</span>
             <button id="break-decrement" onClick={decrementBreak}>
                 <i className="fa-solid fa-arrow-down"></i>
             </button>

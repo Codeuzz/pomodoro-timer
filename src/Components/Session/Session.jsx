@@ -12,7 +12,7 @@ function Session({wantedTime, started, incrementSesh, decrementSesh, seshTime}) 
             <button id="session-increment" onClick={incrementSesh}>
                 <i className="fa-solid fa-arrow-up"></i>
             </button>
-            <span className='param-length' id='session-length'>{seshTime / 60}</span>
+            <span className='param-length' id='session-length'>{Math.floor(seshTime / 60) <= 0 ? 1 : Math.floor(seshTime / 60)}</span>
             <button id="session-decrement" onClick={decrementSesh}>
                 <i className="fa-solid fa-arrow-down"></i>
             </button>
