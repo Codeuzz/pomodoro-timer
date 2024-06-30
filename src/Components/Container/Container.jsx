@@ -8,14 +8,14 @@ function Container() {
     const [wantedTime, setWantedTime] = useState(1500);
     const [started, setStarted] = useState(false);
     const [timeFinished, setTimeFinished] = useState(false);
-    const [timeFinishedB, setTimeFinishedB] = useState(true);
+    const [timeFinishedB, setTimeFinishedB] = useState(false);
     const [seshTime, setSeshTime] = useState(1500);
     const [wantedBreakTime, setWantedBreakTime] = useState(300);
     const [breakTime, setBreakTime] = useState(300);
     const [onBreak, setOnBreak] = useState(false);
 
     const FinishedAudio = useRef(null);
-    const [totalSesh, setTotalSesh] = useState(0)
+    const [totalSesh, setTotalSesh] = useState(1)
     const timerIdRef = useRef(null);
 
     const incrementSesh = () => {
@@ -46,11 +46,8 @@ function Container() {
         setTimeFinished(false);
         setTimeFinishedB(true);
         setOnBreak(false);
-        FinishedAudio.current.pause();
-        FinishedAudio.current.currentTime = 0;
 
         if (timerIdRef.current) {
-            console.log("removed timer, reset")
 
             clearInterval(timerIdRef.current);
             timerIdRef.current = null;
@@ -58,19 +55,48 @@ function Container() {
 
     }
 
+    const resetBtn = () => {
+        setWantedTime(1500);
+        setSeshTime(1500);
+        setWantedBreakTime(300);
+        setBreakTime(300)
+        setStarted(false);
+        setTimeFinished(false);
+        setTimeFinishedB(false);
+        setOnBreak(false);
+        setTotalSesh(1);
+        FinishedAudio.current.pause();
+        FinishedAudio.current.currentTime = 0;
+
+        if (timerIdRef.current) {
+
+            clearInterval(timerIdRef.current);
+            timerIdRef.current = null;
+        }
+    }
+
     const startBreak = () => {
         if(onBreak && started) {
             setWantedBreakTime(prevTime => {
-                if(prevTime === 0) {
+                if(prevTime <= 0) {
                     setStarted(false)
                     FinishedAudio.current.currentTime = 0;
                     FinishedAudio.current.play();
                     setTimeFinishedB(true);
+                    console.log("this is supposed to be 0 : ", prevTime)
 
-                    resetEverything()
+                    setWantedTime(1500)
+                    setTimeFinished(false);
+                    setOnBreak(false);
+                    if (timerIdRef.current) {
+
+                        clearInterval(timerIdRef.current);
+                        timerIdRef.current = null;
+                    }
 
                     return 0;
                 } else {
+                    console.log("countdown : ", prevTime - 1)
                    return prevTime - 1
                 }
             });
@@ -86,8 +112,8 @@ function Container() {
                     FinishedAudio.current.play();
                     setTimeFinished(true);
                     setTimeFinishedB(false);
+                    setWantedBreakTime(300)
                     setOnBreak(true);
-                    console.log('time finished : ', timeFinished);
 
                     return 0
                 } else {
@@ -98,8 +124,6 @@ function Container() {
     }
 
     useEffect(() => {
-        console.log("Setting interval");
-        console.log("time finished useffect :",timeFinished);
 
         if (started) {
             if (onBreak) {
@@ -115,7 +139,6 @@ function Container() {
 
         return () => {
             if (timerIdRef.current) {
-                console.log("removed timer, unmounted")
                 clearInterval(timerIdRef.current);
             }
         };
@@ -124,7 +147,6 @@ function Container() {
     useEffect(() => {
         if(timeFinishedB) {
             setTotalSesh(prev => prev + 1)
-
         }
     }, [timeFinishedB])
 
@@ -133,16 +155,16 @@ function Container() {
 
     return(
         <div id='app-container'>
-            <Timer timeFinished={timeFinished} wantedBreakTime={wantedBreakTime} wantedTime={wantedTime} totalSesh={totalSesh} />
+            <Timer onBreak={onBreak} wantedBreakTime={wantedBreakTime} wantedTime={wantedTime} totalSesh={totalSesh} />
             <Buttons 
                 started={started} 
                 setStarted={setStarted} 
                 timeFinished={timeFinished} 
                 setTimeFinished={setTimeFinished} 
                 ref={FinishedAudio}
-                resetEverything={resetEverything}
+                resetBtn={resetBtn}
                 setTotalSesh={setTotalSesh}
-            />
+            /> 
             <Parameters  
                 seshTime={seshTime} 
                 wantedTime={wantedTime}  
