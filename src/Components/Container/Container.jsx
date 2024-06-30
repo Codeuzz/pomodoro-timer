@@ -46,6 +46,7 @@ function Container() {
         setTimeFinished(false);
         setTimeFinishedB(true);
         setOnBreak(false);
+        FinishedAudio.current.pause();
         FinishedAudio.current.currentTime = 0;
 
         if (timerIdRef.current) {
